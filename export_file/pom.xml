@@ -9,7 +9,7 @@
     <parent>
         <artifactId>web_utils</artifactId>
         <groupId>pub.carzy</groupId>
-        <version>1.0</version>
+        <version>1.0.RELEASE</version>
     </parent>
 
     <dependencies>

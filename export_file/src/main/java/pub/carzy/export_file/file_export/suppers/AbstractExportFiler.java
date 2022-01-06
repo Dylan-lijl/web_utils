@@ -4,15 +4,16 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import pub.carzy.export_file.exce.SystemErrorException;
 import pub.carzy.export_file.file_export.ExportFiler;
 import pub.carzy.export_file.file_export.actuator.ExportActuator;
+import pub.carzy.export_file.file_export.actuator.ExportActuatorConfig;
 import pub.carzy.export_file.file_export.actuator.ExportActuatorParam;
 import pub.carzy.export_file.file_export.entity.ExportRequestParam;
 import pub.carzy.export_file.file_export.entity.ExportTitle;
+import pub.carzy.export_file.spring_bean.WebEnvConfig;
+import pub.carzy.export_file.template.ExportConvertorMerger;
 
+import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 抽象处理
@@ -20,24 +21,15 @@ import java.util.Map;
  * @author admin
  */
 public abstract class AbstractExportFiler implements ExportFiler {
+
     /**
-     * 环境
+     * 环境变量,由于扩展性问题,使用map进行接收
      */
-    private final Map<String,Object> envs = new HashMap<>();
+    @Resource
+    private WebEnvConfig webEnvConfig;
 
-    @Override
-    public void setEnvs(Map<String, Object> envs) {
-        synchronized (this){
-            this.envs.putAll(envs);
-        }
-    }
-
-    @Override
-    public Map<String, Object> getEnvs() {
-        Map<String,Object> envs = new HashMap<>(this.envs.size());
-        envs.putAll(this.envs);
-        return envs;
-    }
+    @Resource
+    private ExportConvertorMerger merger;
 
     @Override
     public boolean match(ExportRequestParam param, Object data) {
@@ -45,18 +37,15 @@ public abstract class AbstractExportFiler implements ExportFiler {
     }
 
     @Override
-    public String export(ExportRequestParam param, Object data, ProceedingJoinPoint point) {
+    public Object export(ExportRequestParam param, Object data, ProceedingJoinPoint point) {
         ExportActuatorParam actuatorParam = new ExportActuatorParam();
-        actuatorParam.setCommonFilePath((String) envs.get("common-file-path"));
-        actuatorParam.setPrefix((String) envs.get("prefix"));
-        //定义几个模板方法
-        ExportActuator actuator = buildExportActuator(param, data, point,actuatorParam);
+        actuatorParam.setCommonFilePath(webEnvConfig.getExport().get("common-file-path") == null ? "" : webEnvConfig.getExport().get("common-file-path"));
+        actuatorParam.setPrefix(webEnvConfig.getExport().get("prefix") == null ? "" : webEnvConfig.getExport().get("prefix"));
+        actuatorParam.setParam(param);
+        //新对象来规避并发问题
+        ExportActuator actuator = createExportActuator(data, point, actuatorParam);
         // 2.获取标题,进行排序
         List<ExportTitle> titles = actuator.getTitles();
-        if (titles != null && titles.size() > 0) {
-            //排序,正序排序
-            titles.sort(Comparator.comparingInt(ExportTitle::getSort));
-        }
         // 3.创建文件
         actuator.createFile();
         try {
@@ -67,7 +56,7 @@ public abstract class AbstractExportFiler implements ExportFiler {
                 actuator.writeContent();
             }
             // 6.获取文件路径
-            return actuator.getFilepath();
+            return actuator.getObject();
         } finally {
             //调用close方法
             try {
@@ -81,16 +70,26 @@ public abstract class AbstractExportFiler implements ExportFiler {
     /**
      * 获取导出执行器
      *
-     * @param param
      * @param data
      * @param point
      * @param actuatorParam
      * @return
      */
-    protected abstract ExportActuator buildExportActuator(ExportRequestParam param, Object data, ProceedingJoinPoint point, ExportActuatorParam actuatorParam);
+    protected abstract ExportActuator createExportActuator(Object data, ProceedingJoinPoint point, ExportActuatorParam actuatorParam);
 
     @Override
     public int getOrder() {
         return 0;
+    }
+
+    /**
+     * 获取配置信息
+     *
+     * @return 配置信息
+     */
+    protected ExportActuatorConfig getActuatorConfig() {
+        ExportActuatorConfig config = new ExportActuatorConfig();
+        config.setFactories(merger.getFactories());
+        return config;
     }
 }

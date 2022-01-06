@@ -3,6 +3,7 @@ package pub.carzy.export_file.file_export.actuator;
 import pub.carzy.export_file.file_export.entity.ExportTitle;
 
 import java.io.Closeable;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -33,8 +34,7 @@ public interface ExportActuator extends Closeable {
     void writeContent();
 
     /**
-     * 获取文件
-     * @return
+     * 对象
      */
-    String getFilepath();
+    Object getObject();
 }

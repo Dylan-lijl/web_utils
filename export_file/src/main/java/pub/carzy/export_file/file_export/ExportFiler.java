@@ -30,17 +30,5 @@ public interface ExportFiler extends Ordered {
      * @param point 连接点
      * @return 文件
      */
-    String export(ExportRequestParam param, Object data, ProceedingJoinPoint point);
-
-    /**
-     * 设置环境参数
-     * @param envs 环境参数
-     */
-    void setEnvs(Map<String, Object> envs);
-
-    /**
-     * 获取环境参数
-     * @return 环境参数
-     */
-    Map<String, Object> getEnvs();
+    Object export(ExportRequestParam param, Object data, ProceedingJoinPoint point);
 }

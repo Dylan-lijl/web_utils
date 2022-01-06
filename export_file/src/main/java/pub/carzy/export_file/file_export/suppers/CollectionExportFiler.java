@@ -11,6 +11,8 @@ import java.util.Collection;
  * @author admin
  */
 public abstract class CollectionExportFiler extends AbstractExportFiler {
+
+
     @Override
     public int getOrder() {
         return super.getOrder() - ExportFileStatic.COLLECTION_ORDER;

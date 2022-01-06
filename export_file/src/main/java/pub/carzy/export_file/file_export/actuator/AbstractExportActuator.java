@@ -1,14 +1,15 @@
 package pub.carzy.export_file.file_export.actuator;
 
 import org.aspectj.lang.ProceedingJoinPoint;
+import pub.carzy.export_file.exce.ExportNotSupportedException;
+import pub.carzy.export_file.exce.SystemErrorException;
 import pub.carzy.export_file.file_export.MetaInfo;
 import pub.carzy.export_file.file_export.MetaInfoField;
-import pub.carzy.export_file.file_export.entity.ExportRequestParam;
 import pub.carzy.export_file.file_export.entity.ExportTitle;
 import pub.carzy.export_file.file_export.entity.ExportValueFormat;
+import pub.carzy.export_file.template.FileWriteFactory;
 import pub.carzy.export_file.util.ObjectUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -21,27 +22,46 @@ import java.util.*;
  * @author admin
  */
 public abstract class AbstractExportActuator implements ExportActuator {
-    protected ExportRequestParam param;
     protected ExportActuatorParam actuatorParam;
     protected Object data;
     protected ProceedingJoinPoint point;
-    protected File file;
     protected static final Map<Class<?>, MetaInfo> infoMap = new HashMap<>();
-    protected List<ExportTitle> titles;
+    protected FileWriter writer;
+
     /**
      * 转换器
      */
-    private static ServiceLoader<ExportFileValueConvertor> convertors;
+    private ExportActuatorConfig config;
 
-    static {
-        convertors = ServiceLoader.load(ExportFileValueConvertor.class);
-    }
-
-    public AbstractExportActuator(ExportRequestParam param, Object data, ProceedingJoinPoint point, ExportActuatorParam actuatorParam) {
-        this.param = param;
+    public AbstractExportActuator(Object data, ProceedingJoinPoint point, ExportActuatorParam actuatorParam, ExportActuatorConfig config) {
         this.data = data;
         this.point = point;
         this.actuatorParam = actuatorParam;
+        this.config = config;
+        //匹配到对应的文件处理器并实例化
+        findWriter();
+    }
+
+    /**
+     * 默认实现直接返回file对象
+     * @return file对象
+     */
+    @Override
+    public Object getObject() {
+        return writer.getFile();
+    }
+
+    /**
+     * 找不到就抛异常
+     */
+    protected void findWriter() {
+        for (FileWriteFactory factory : config.getFactories()) {
+            if (factory.match(actuatorParam.getParam().getFileType())) {
+                this.writer = factory.createWriter(actuatorParam);
+                return;
+            }
+        }
+        throw new ExportNotSupportedException();
     }
 
     /**
@@ -51,7 +71,8 @@ public abstract class AbstractExportActuator implements ExportActuator {
      */
     @Override
     public List<ExportTitle> getTitles() {
-        return param.getTitles() == null || param.getTitles().size() <= 0 ? doGetTitles() : param.getTitles();
+        return actuatorParam.getParam().getTitles() == null || actuatorParam.getParam().getTitles().size() <= 0 ?
+                doGetTitles() : actuatorParam.getParam().getTitles();
     }
 
     /**
@@ -64,11 +85,6 @@ public abstract class AbstractExportActuator implements ExportActuator {
     }
 
     @Override
-    public String getFilepath() {
-        return file == null ? null : file.getName();
-    }
-
-    @Override
     public void close() throws IOException {
         doClose();
     }
@@ -76,7 +92,86 @@ public abstract class AbstractExportActuator implements ExportActuator {
     /**
      * 关闭
      */
-    protected abstract void doClose();
+    protected void doClose() throws IOException {
+        if (this.writer != null) {
+            this.writer.close();
+        }
+    }
+
+    @Override
+    public void createFile() {
+        writer.createFile();
+    }
+
+    @Override
+    public void writeTitles(List<ExportTitle> titles) {
+        //转成list
+        List<String> title = transformTitles(titles);
+        writer.writeLine(title, null);
+        // flush();
+    }
+
+    /*protected void flush() {
+        try {
+            writer.flush();
+        } catch (IOException e) {
+            throw new SystemErrorException();
+        }
+    }*/
+
+    protected List<String> transformTitles(List<ExportTitle> titles) {
+        List<String> list = new ArrayList<>(titles.size());
+        for (ExportTitle exportTitle : titles) {
+            list.add(exportTitle.getTitle());
+        }
+        return list;
+    }
+
+    @Override
+    public void writeContent() {
+        List<List<Object>> values = transformContent();
+        if (values != null && values.size() > 0) {
+            writer.writeMany(values,null);
+            // flush();
+        }
+    }
+
+    /**
+     * 提供默认转换方法,是转换对象成一条数据,这个按需重写
+     * @return 内容
+     */
+    protected List<List<Object>> transformContent() {
+        if (data == null) {
+            return null;
+        }
+        List<List<Object>> list = new ArrayList<>();
+        List<Object> line = new ArrayList<>();
+        list.add(line);
+        parseAndPutObjectValue(line,data);
+        return list;
+    }
+
+    /**
+     * 解析并将值放入list
+     * @param line
+     * @param obj
+     */
+    protected void parseAndPutObjectValue(List<Object> line,Object obj) {
+        if (obj == null){
+            return;
+        }
+        MetaInfo metaInfo = getMetaInfo(obj.getClass());
+        List<MetaInfoField> fields = metaInfo.getFields();
+        for (ExportTitle title : actuatorParam.getParam().getTitles()) {
+            for (MetaInfoField field : fields) {
+                if (field.getName().equals(title.getName())) {
+                    Object value = field.getCallback().getValue(obj);
+                    line.add(transformValue(title, value));
+                    break;
+                }
+            }
+        }
+    }
 
     /**
      * @param title
@@ -88,9 +183,9 @@ public abstract class AbstractExportActuator implements ExportActuator {
         if (format == null) {
             return value;
         }
-        for (ExportFileValueConvertor convertor : convertors) {
-            if (convertor.match(format)){
-                return convertor.formatValue(format,value);
+        for (ExportFileValueConvertor convertor : config.getConvertors()) {
+            if (convertor.match(format)) {
+                return convertor.formatValue(format, value);
             }
         }
         return value;

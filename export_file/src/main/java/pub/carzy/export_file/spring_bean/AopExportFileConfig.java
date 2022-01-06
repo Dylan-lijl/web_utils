@@ -8,10 +8,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.context.annotation.DependsOn;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
@@ -36,7 +33,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Component
 @Aspect
-@Import(ExportBeans.class)
+@Import({ExportBeans.class,WebEnvConfig.class})
 public class AopExportFileConfig {
 
     /**
@@ -56,19 +53,6 @@ public class AopExportFileConfig {
      */
     @Resource
     private ExportAopCallback callback;
-    /**
-     * 环境变量,由于扩展性问题,使用map进行接收
-     */
-    @Value("web.export")
-    private Map<String,Object> envs;
-
-    public Map<String, Object> getEnvs() {
-        return envs;
-    }
-
-    public void setEnvs(Map<String, Object> envs) {
-        this.envs = envs;
-    }
 
     /**
      * 切所有的额controller
@@ -145,20 +129,16 @@ public class AopExportFileConfig {
         Object data = point.proceed(args);
         Object exportResult = null;
         for (ExportFiler filer : filers) {
+            //匹配到对应的处理器就执行完并跳出循环
             if (filer.match(exportRequestParam, data)) {
                 exportResult = filer.export(exportRequestParam, data, point);
+                break;
             }
         }
         if (ObjectUtils.isEmpty(exportResult)) {
             throw new ExportFileEmptyException();
         }
-        return callback.responseResult(exportResult);
-        // //构建一个返回结果,替换原来的返回结果
-        // Map<String, Object> map = new HashMap<>(4);
-        // map.put("_type", 1);
-        // map.put("_uri", filepath);
-        // map.put("_name", exportRequestParam.getFilename());
-        // return new CommonResult<>(ResultCodeEnum.SUCCESS_EXPORT.getCode(), ResultCodeEnum.SUCCESS_EXPORT.getMessage(), map);
+        return callback.responseResult(exportRequestParam, point, exportResult);
     }
 
 }

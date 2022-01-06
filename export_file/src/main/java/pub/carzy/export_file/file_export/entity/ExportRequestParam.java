@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -17,8 +18,15 @@ public class ExportRequestParam implements Serializable {
     private String filename;
     @ApiModelProperty("文件类型")
     private Integer fileType;
-    @ApiModelProperty(value = "导出的标题",required = true)
+    @ApiModelProperty(value = "导出的标题", required = true)
     @NotNull(message = "缺少导出标题字段内容")
     @Valid
     private List<ExportTitle> titles;
+
+    public void setTitles(List<ExportTitle> titles) {
+        if (titles != null && titles.size() > 1) {
+            titles.sort(Comparator.comparingInt(ExportTitle::getSort));
+        }
+        this.titles = titles;
+    }
 }

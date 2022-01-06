@@ -1,4 +1,4 @@
 web:
   export:
-    aop-expression: "execution(@within(org.springframework.web.bind.annotation.RestController)||@within(org.springframework.stereotype.Controller)"
+    aop-expression: "execution(@within(org.springframework.stereotype.Controller)"
     prefix: tmp_

@@ -1,5 +1,6 @@
 package pub.carzy.export_file.template;
 
+import org.aspectj.lang.ProceedingJoinPoint;
 import pub.carzy.export_file.file_export.entity.ExportRequestParam;
 
 /**
@@ -21,8 +22,10 @@ public interface ExportAopCallback {
 
     /**
      * 返回封装结果
+     *
+     * @param exportRequestParam
      * @param obj 导出返回内容
      * @return 前端接收的实体内容
      */
-    Object responseResult(Object obj);
+    Object responseResult(ExportRequestParam exportRequestParam, ProceedingJoinPoint point, Object obj);
 }

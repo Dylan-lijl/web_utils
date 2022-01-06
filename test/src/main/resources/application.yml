@@ -12,9 +12,12 @@ logging:
     pub.carzy: debug
 web:
   export:
+    #切点
     aop-expression: "execution(public * pub.carzy.services..*.*(..))&&(@within(org.springframework.web.bind.annotation.RestController)||@within(org.springframework.stereotype.Controller))"
 #    aop-expression: "@within(org.springframework.web.bind.annotation.RestController)||@within(org.springframework.stereotype.Controller)"
+    #文件前缀
     prefix: tmp_
+    #保存文件的文件夹绝对路径
     common-file-path: D:\\tmp\\files
 mybatis-plus:
   mapper-locations: classpath:/mapper/*.xml

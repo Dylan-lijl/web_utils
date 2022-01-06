@@ -90,6 +90,7 @@ public abstract class AbstractExportFiler implements ExportFiler {
     protected ExportActuatorConfig getActuatorConfig() {
         ExportActuatorConfig config = new ExportActuatorConfig();
         config.setFactories(merger.getFactories());
+        config.setConvertors(merger.getConvertors());
         return config;
     }
 }

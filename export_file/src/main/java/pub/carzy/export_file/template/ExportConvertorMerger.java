@@ -19,6 +19,10 @@ public class ExportConvertorMerger implements InitializingBean {
     @Resource
     protected List<ExportFileValueConvertor> convertors;
 
+    public List<ExportFileValueConvertor> getConvertors() {
+        return new ArrayList<>(convertors);
+    }
+
     public List<FileWriteFactory> getFactories() {
         return new ArrayList<>(factories);
     }
@@ -34,13 +38,14 @@ public class ExportConvertorMerger implements InitializingBean {
      * 加载SPI
      */
     protected void loadBySPI() {
+        ClassLoader classLoader = FileWriteFactory.class.getClassLoader();
         synchronized (this) {
-            ServiceLoader<FileWriteFactory> loader = ServiceLoader.load(FileWriteFactory.class);
+            ServiceLoader<FileWriteFactory> loader = ServiceLoader.load(FileWriteFactory.class,classLoader);
             //添加
             for (FileWriteFactory factory : loader) {
                 this.factories.add(factory);
             }
-            ServiceLoader<ExportFileValueConvertor> convertorServiceLoader = ServiceLoader.load(ExportFileValueConvertor.class);
+            ServiceLoader<ExportFileValueConvertor> convertorServiceLoader = ServiceLoader.load(ExportFileValueConvertor.class,classLoader);
             for (ExportFileValueConvertor convertor : convertorServiceLoader) {
                 this.convertors.add(convertor);
             }

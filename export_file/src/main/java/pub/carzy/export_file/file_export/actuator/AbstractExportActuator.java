@@ -44,6 +44,7 @@ public abstract class AbstractExportActuator implements ExportActuator {
 
     /**
      * 默认实现直接返回file对象
+     *
      * @return file对象
      */
     @Override
@@ -131,13 +132,14 @@ public abstract class AbstractExportActuator implements ExportActuator {
     public void writeContent() {
         List<List<Object>> values = transformContent();
         if (values != null && values.size() > 0) {
-            writer.writeMany(values,null);
+            writer.writeMany(values, null);
             // flush();
         }
     }
 
     /**
      * 提供默认转换方法,是转换对象成一条数据,这个按需重写
+     *
      * @return 内容
      */
     protected List<List<Object>> transformContent() {
@@ -147,17 +149,18 @@ public abstract class AbstractExportActuator implements ExportActuator {
         List<List<Object>> list = new ArrayList<>();
         List<Object> line = new ArrayList<>();
         list.add(line);
-        parseAndPutObjectValue(line,data);
+        parseAndPutObjectValue(line, data);
         return list;
     }
 
     /**
      * 解析并将值放入list
+     *
      * @param line
      * @param obj
      */
-    protected void parseAndPutObjectValue(List<Object> line,Object obj) {
-        if (obj == null){
+    protected void parseAndPutObjectValue(List<Object> line, Object obj) {
+        if (obj == null) {
             return;
         }
         MetaInfo metaInfo = getMetaInfo(obj.getClass());
@@ -185,7 +188,8 @@ public abstract class AbstractExportActuator implements ExportActuator {
         }
         for (ExportFileValueConvertor convertor : config.getConvertors()) {
             if (convertor.match(format)) {
-                return convertor.formatValue(format, value);
+                Object val = convertor.formatValue(format, value);
+                return val == null ? "" : val;
             }
         }
         return value;

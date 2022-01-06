@@ -10,5 +10,4 @@ public class ConvertorType {
     public static final int PREFIX = 3;
     public static final int SUFFIX = 4;
     public static final int ARRAY_TO_STRING = 5;
-    public static final int JSON = 6;
 }

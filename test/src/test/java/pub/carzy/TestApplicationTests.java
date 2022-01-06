@@ -3,6 +3,7 @@ package pub.carzy;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import pub.carzy.export_file.file_export.actuator.ExportActuatorParam;
+import pub.carzy.export_file.file_export.actuator.ExportFileValueConvertor;
 import pub.carzy.export_file.file_export.actuator.FileWriter;
 import pub.carzy.export_file.file_export.actuator.writers.TxtFileWriter;
 import pub.carzy.export_file.file_export.entity.ExportRequestParam;
@@ -11,8 +12,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
+import java.net.URL;
+import java.util.*;
 
 // @SpringBootTest
 class TestApplicationTests {
@@ -76,6 +77,22 @@ class TestApplicationTests {
         }
         writer.writeMany(list,null);
         writer.flush();
+    }
+
+    @Test
+    void testSPI(){
+        /*try {
+            Enumeration<URL> resources = this.getClass().getClassLoader().getResources("MATE-INF/services/pub.carzy.export_file.file_export.actuator.ExportFileValueConvertor");
+            while (resources.hasMoreElements()){
+                System.out.println(resources.nextElement().getFile());
+            }
+        } catch (IOException e) {
+
+        }*/
+        ServiceLoader<ExportFileValueConvertor> load = ServiceLoader.load(ExportFileValueConvertor.class);
+        for (ExportFileValueConvertor convertor:load){
+            System.out.println(convertor.getClass().getName());
+        }
     }
 
 }

@@ -33,6 +33,7 @@ public enum ResultCodeEnum implements CodeEnum {
     UNAUTHORIZED_ACCESS(910, "非法访问"),
     CLONE_FAILED(911, "克隆失败"),
     UNREALIZED(912, "未实现"),
+    FILE_NOT_SUPPORTED(913, "不支持该文件类型"),
     ERROR_USER_NAME_OR_PASSWORD(801, "用户名或密码错误"),
     USER_IS_DISABLED(802, "用户已被禁用"),
     USER_NOT_FOUND(803, "用户不存在或未登录"),

@@ -6,8 +6,8 @@
     (1)在配置类上添加WebExportFileEnable注解
     (2)配置Bean->ExportAopCallback,继承DefaultExportAopCallback类按需重写方法
     (3)配置Bean->ExportFiler编写自己业务规则(根据拦截的方法返回类型来配置)
-
-    (4)配置文件更改:
+    (4)添加异常拦截器拦截异常返回自定义数据: 可以直接拦截异常公共父类ExportBaseException,也可以分开拦截:ExportFileEmptyException,ExportNotSupportedException,SystemErrorException
+    (5)配置文件更改:
     web:
       export:
         # 切点表达式,指定扫描哪些类,默认是扫描RestController和Controller
@@ -16,8 +16,8 @@
         prefix: tmp_
         # 创建文件所在文件夹的绝对路径,文件夹必须存在
         common-file-path: D:\\tmp\\files
-    (5)在需要导出的方法添加注解,ExportMethod
-    (6)前端请求格式要求, 以json请求为例:
+    (6)在需要导出的方法添加注解,ExportMethod
+    (7)前端请求格式要求, 以json请求为例:
     #最外层的json对象
     {
         "_export": {
@@ -44,6 +44,7 @@
 ### 2.高级使用
     (1) 类型转换器,此工具默认提供一些简单的类型处理器:
         |功能|前端对应的值|
+        | :----: | :----: |
         |键值对|1|
         |时间类型转换(yyyy-MM-dd HH:mm:ss)格式字符串|2|
         |前缀拼接|3|
@@ -53,6 +54,7 @@
         自定转换器:1.实现ExportFileValueConvertor接口,实现match方法以及formatValue方法;2.使用SPI加载(自行百度)或使用Spring加载
     (2) 文件处理器,默认提供三种类型
         |类型|前端对应的值|
+        | :----: | :----: |
         |csv|1|
         |excel|2|
         |文本|3|

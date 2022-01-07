@@ -108,7 +108,7 @@ public abstract class AbstractExportActuator implements ExportActuator {
     public void writeTitles(List<ExportTitle> titles) {
         //转成list
         List<String> title = transformTitles(titles);
-        writer.writeLine(title, null);
+        writer.writeLine(title, this.actuatorParam.getParam().getTitleStyle());
         // flush();
     }
 
@@ -132,8 +132,7 @@ public abstract class AbstractExportActuator implements ExportActuator {
     public void writeContent() {
         List<List<Object>> values = transformContent();
         if (values != null && values.size() > 0) {
-            writer.writeMany(values, null);
-            // flush();
+            writer.writeMany(values, this.actuatorParam.getParam().getValueStyle());
         }
     }
 

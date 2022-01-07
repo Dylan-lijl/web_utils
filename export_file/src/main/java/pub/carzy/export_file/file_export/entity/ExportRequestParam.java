@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author admin
@@ -22,6 +23,10 @@ public class ExportRequestParam implements Serializable {
     @NotNull(message = "缺少导出标题字段内容")
     @Valid
     private List<ExportTitle> titles;
+    @ApiModelProperty("标题样式")
+    private Map<String,Object> titleStyle;
+    @ApiModelProperty("内容样式")
+    private Map<String,Object> valueStyle;
 
     public void setTitles(List<ExportTitle> titles) {
         if (titles != null && titles.size() > 1) {

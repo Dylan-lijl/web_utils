@@ -1,13 +1,15 @@
 package pub.carzy.export_file.file_export.actuator.writers;
 
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.RichTextString;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.*;
 import pub.carzy.export_file.exce.SystemErrorException;
 import pub.carzy.export_file.file_export.actuator.ExportActuatorParam;
 
+import java.awt.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
@@ -34,7 +36,7 @@ public class ExcelFileWriter extends AbstractFileWriter {
     }
 
     @Override
-    public <T> void writeLine(List<T> line, Map<String,Object> configs) {
+    public <T> void writeLine(List<T> line, Map<String, Object> configs) {
         XSSFRow row = xssfSheet.createRow(rowIndex++);
         for (int i = 0; i < line.size(); i++) {
             Object value = line.get(i);
@@ -56,7 +58,49 @@ public class ExcelFileWriter extends AbstractFileWriter {
             } else {
                 cell.setCellValue(value.toString());
             }
+            //设置样式
+            if (configs != null) {
+                //公共的样式,尽量自行扩展重写
+                setCellStyle(cell, configs);
+            }
         }
+    }
+
+    private void setCellStyle(XSSFCell cell, Map<String, Object> configs) {
+        XSSFCellStyle cellStyle = xssfWorkbook.createCellStyle();
+        Font font = xssfWorkbook.createFont();
+        for (Map.Entry<String, Object> config : configs.entrySet()) {
+            //这里最好使用spi来加载处理
+            if ("对齐方式".equals(config.getKey())) {
+                if (config.getValue() instanceof String) {
+                    if ("居中".equals(config.getValue())) {
+                        cellStyle.setAlignment(HorizontalAlignment.CENTER);
+                    } else if ("居右".equals(config.getValue())) {
+                        cellStyle.setAlignment(HorizontalAlignment.RIGHT);
+                    }
+                }
+            } else if ("字体".equals(config.getKey())){
+                if (config.getValue() instanceof String){
+                    font.setFontName((String) config.getValue());
+                }
+            } else if ("字体大小".equals(config.getKey())){
+                if (config.getValue() instanceof Number){
+                    font.setFontHeightInPoints(((Number) config.getValue()).shortValue());
+                }
+            }else if ("粗体".equals(config.getKey())){
+                font.setBold(true);
+            }else if ("斜体".equals(config.getKey())){
+                font.setItalic(true);
+            }else if ("删除线".equals(config.getKey())){
+                font.setStrikeout(true);
+            }else if ("下划线".equals(config.getKey())){
+                if (config.getValue() instanceof Number) {
+                    font.setUnderline(((Number) config.getValue()).byteValue());
+                }
+            }
+        }
+        cellStyle.setFont(font);
+        cell.setCellStyle(cellStyle);
     }
 
     @Override

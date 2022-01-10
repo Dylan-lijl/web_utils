@@ -1,7 +1,6 @@
 package pub.carzy.export_file.util;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jdk.nashorn.internal.ir.annotations.Ignore;
 import pub.carzy.export_file.exce.ExportBaseException;
 
@@ -20,6 +19,10 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * 对象工具类
+ * @author admin
+ */
 public class ObjectUtils {
     /**
      * 忽略的方法
@@ -64,8 +67,8 @@ public class ObjectUtils {
     /**
      * 判断是否空
      *
-     * @param object
-     * @return
+     * @param object 对象
+     * @return 是否为空
      */
     public static boolean isEmpty(Object object) {
         if (isNull(object)) {
@@ -83,8 +86,8 @@ public class ObjectUtils {
     /**
      * 非空
      *
-     * @param object
-     * @return
+     * @param object 对象
+     * @return 是否不为空
      */
     public static boolean isNotEmpty(Object object) {
         return !isEmpty(object);
@@ -93,8 +96,8 @@ public class ObjectUtils {
     /**
      * 判断是否为null
      *
-     * @param object
-     * @return
+     * @param object 对象
+     * @return 是否为null
      */
     public static boolean isNull(Object object) {
         return object == null;
@@ -138,8 +141,8 @@ public class ObjectUtils {
     /**
      * 非空
      *
-     * @param object
-     * @return
+     * @param object 对象
+     * @return 是否不为null
      */
     public static boolean isNotNull(Object object) {
         return !isNull(object);
@@ -148,8 +151,8 @@ public class ObjectUtils {
     /**
      * 判断是否是空白字符串
      *
-     * @param object
-     * @return
+     * @param object 对象
+     * @return 是否是空白
      */
     public static boolean isBlank(Object object) {
         if (isEmpty(object)) {
@@ -161,18 +164,18 @@ public class ObjectUtils {
     /**
      * 非空
      *
-     * @param object
-     * @return
+     * @param object 对象
+     * @return 是否不是空白
      */
     public static boolean isNotBlank(Object object) {
         return !isBlank(object);
     }
 
     /**
-     * 获取所有方法
+     * 获取该class的所有方法(包括父类的方法)
      *
-     * @param clazz
-     * @return
+     * @param allMethod 装方法的容器
+     * @param clazz class
      */
     public static void getAllMethods(Class clazz, Set<Method> allMethod) {
         if (isSimpleType(clazz)) {
@@ -207,8 +210,8 @@ public class ObjectUtils {
     /**
      * 是否是基础包装类型等等
      *
-     * @param type1
-     * @return
+     * @param type1 类型class
+     * @return 是否是基础类
      */
     public static boolean isSimpleType(Class<?> type1) {
         boolean isSimple = false;
@@ -224,8 +227,8 @@ public class ObjectUtils {
     /**
      * 是否是集合或map
      *
-     * @param type1
-     * @return
+     * @param type1 类型
+     * @return 是否是集合或Map类型
      */
     public static boolean isMapOrCollection(Class<?> type1) {
         if (Collection.class.isAssignableFrom(type1)) {
@@ -273,8 +276,8 @@ public class ObjectUtils {
     /**
      * 将第一个字母大写
      *
-     * @param string
-     * @return
+     * @param string 字符串
+     * @return 将第一个小写字母转成大写字母
      */
     public static String uppercaseFirst(String string) {
         if (string == null) {
@@ -297,8 +300,8 @@ public class ObjectUtils {
     /**
      * 获取常用
      *
-     * @param type
-     * @return
+     * @param type 类型
+     * @return 获取对象类型的class的实现
      */
     public static Class getCommonMapOrCollection(Class<?> type) {
         if (type == List.class) {
@@ -314,9 +317,9 @@ public class ObjectUtils {
     /**
      * 获取基本对象数据
      *
-     * @param type
-     * @param o
-     * @return
+     * @param type 类型
+     * @param o 目标对象
+     * @return 转成目标对象的类型值(可能转换不成功,不成功则为null或抛异常)
      */
     public static Object getSimpleValue(Class type, Object o, Annotation[] annotations) {
         if (type == String.class) {
@@ -357,27 +360,7 @@ public class ObjectUtils {
 
         //其他类型
         if (type == Date.class) {
-            String pattern = null;
-            if (annotations != null) {
-                /*for (Annotation annotation : annotations) {
-                    if (annotation instanceof DateFom) {
-                        JsonFormat format = (JsonFormat) annotation;
-                        pattern = ("".equals(format.pattern())) ? format.value() : format.pattern();
-                        break;
-                    }
-                }*/
-            }
-            if (pattern != null && !"".equals(pattern)) {
-                SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-                try {
-                    value = sdf.parse(o.toString());
-                } catch (ParseException e) {
-                    throw new ExportBaseException("解析日期类型错误,pattern:" + pattern + ",value:" + o.toString());
-                }
-            } else {
-                value = DateFormat.getDateTimeInstance().format(o.toString());
-            }
-
+            value = DateFormat.getDateTimeInstance().format(o.toString());
         }
         return value;
     }
@@ -387,8 +370,8 @@ public class ObjectUtils {
      *
      * @param clazz           源类
      * @param annotationClass 注解
-     * @param <T>
-     * @return
+     * @param <T> 注解
+     * @return 指定注解(可能为null)
      */
     public static <T extends Annotation> T getAnnotationByClass(Class clazz, Class<T> annotationClass) {
         //获取clazz所有的注解
@@ -426,10 +409,10 @@ public class ObjectUtils {
     /**
      * 判断是否匹配
      *
-     * @param aClass
-     * @param clazz
-     * @param <T>
-     * @return
+     * @param aClass 目标对象
+     * @param clazz 要匹配的类型
+     * @param <T> 要匹配的泛型
+     * @return 当前class是否等于,继承或实现该class
      */
     public static <T> boolean matchClass(Class<?> aClass, Class<T> clazz) {
         if (aClass == null) {
@@ -456,10 +439,10 @@ public class ObjectUtils {
     /**
      * 转换数据
      *
-     * @param type
-     * @param data
-     * @param <T>
-     * @return
+     * @param type 类型
+     * @param data 目标数据
+     * @param <T> 目标类型
+     * @return 匹配对应的对象类型来转换值
      */
     public static <T> T transform(Class<T> type, Object data) {
         T value = null;
@@ -509,10 +492,10 @@ public class ObjectUtils {
     /**
      * 获取map或list
      *
-     * @param type
-     * @param o
-     * @param annotations
-     * @return
+     * @param type 类型
+     * @param o 目标对象
+     * @param annotations 注解
+     * @return 尝试转换成集合或map类型(根据类型来决定是否转换)
      */
     public static <T> T getCollectionOrMapValue(Class<T> type, Object o, Annotation[] annotations) {
         T obj = null;
@@ -563,12 +546,12 @@ public class ObjectUtils {
     }
 
     /**
-     * 浅复制属性
+     * 浅复制属性,需要提供无参构造方法
      *
-     * @param source
-     * @param tClass
-     * @param <T>
-     * @return
+     * @param source 来源
+     * @param tClass 目标class
+     * @param <T> 目标对象
+     * @return 目标实例对象
      */
     public static final <T> T copyProperties(Object source, Class<T> tClass) {
         try {
@@ -640,9 +623,9 @@ public class ObjectUtils {
     /**
      * 拼接字符串
      *
-     * @param collection
-     * @param separator
-     * @return
+     * @param collection 集合类型
+     * @param separator 分隔符
+     * @return 遍历拼接
      */
     public static <T> String spliceSeparator(Collection<T> collection, String separator) {
         if (collection == null || collection.size() <= 0) {

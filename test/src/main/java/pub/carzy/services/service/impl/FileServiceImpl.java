@@ -78,7 +78,6 @@ public class FileServiceImpl implements FileService {
         int index = fileName.lastIndexOf(".");
         if (index >= 0 && mimeTypeMap.get(fileName.substring(index)) != null) {
             response.setContentType(mimeTypeMap.get(fileName.substring(index)) + ";charset=UTF-8");
-            // response.addHeader("Accept-Ranges","bytes");
         } else {
             response.setContentType("application/octet-stream");
             response.setHeader("Content-disposition", "attachment;filename=\"" + file.getName().replace(applicationContext.getEnvironment().getProperty("web.export.prefix"), "") + "\"");

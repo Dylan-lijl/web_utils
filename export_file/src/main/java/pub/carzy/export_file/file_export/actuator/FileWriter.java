@@ -40,7 +40,8 @@ public interface FileWriter extends Closeable {
     void createFile();
 
     /**
-     * 刷盘
+     * 刷新缓存区到文件中
+     * @throws IOException
      */
     void flush() throws IOException;
 }

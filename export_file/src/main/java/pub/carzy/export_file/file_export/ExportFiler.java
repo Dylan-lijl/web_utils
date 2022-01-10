@@ -14,16 +14,16 @@ import java.util.Map;
  */
 public interface ExportFiler extends Ordered {
     /**
-     * 是否匹配
+     * 匹配是否能够处理
      *
-     * @param param
-     * @param data
-     * @return
+     * @param param 参数
+     * @param data 方法执行结果
+     * @return 是否能够处理
      */
     boolean match(ExportRequestParam param, Object data);
 
     /**
-     * 导出
+     * 执行导出
      *
      * @param param 导出文件信息
      * @param data  数据

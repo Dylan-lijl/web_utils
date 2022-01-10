@@ -67,7 +67,7 @@ public abstract class AbstractFileWriter implements FileWriter {
     /**
      * 获取文件名称
      *
-     * @return
+     * @return 文件名称
      */
     protected abstract String getFilename();
 }

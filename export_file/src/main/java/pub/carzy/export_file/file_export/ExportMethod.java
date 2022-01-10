@@ -15,13 +15,13 @@ import java.lang.annotation.*;
 public @interface ExportMethod {
     /**
      * 默认文件名称
-     * @return
+     * @return 默认导出的文件名称
      */
     String filename() default "download";
 
     /**
      * 默认文件类型 txt
-     * @return
+     * @return 默认导出的文件类型
      */
     int fileType() default FileType.TXT;
 }

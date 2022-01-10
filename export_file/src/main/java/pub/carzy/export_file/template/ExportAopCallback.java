@@ -23,7 +23,7 @@ public interface ExportAopCallback {
     /**
      * 返回封装结果
      *
-     * @param exportRequestParam
+     * @param exportRequestParam 导出请求的参数
      * @param obj 导出返回内容
      * @return 前端接收的实体内容
      */

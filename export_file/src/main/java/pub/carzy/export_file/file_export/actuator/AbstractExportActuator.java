@@ -68,7 +68,7 @@ public abstract class AbstractExportActuator implements ExportActuator {
     /**
      * 如果 param里面含有titles并且长度大于0,则使用里面的,否则使用对象的
      *
-     * @return
+     * @return 标题
      */
     @Override
     public List<ExportTitle> getTitles() {
@@ -79,7 +79,7 @@ public abstract class AbstractExportActuator implements ExportActuator {
     /**
      * 获取标题
      *
-     * @return
+     * @return 标题
      */
     protected List<ExportTitle> doGetTitles() {
         return new ArrayList<>();
@@ -109,16 +109,7 @@ public abstract class AbstractExportActuator implements ExportActuator {
         //转成list
         List<String> title = transformTitles(titles);
         writer.writeLine(title, this.actuatorParam.getParam().getTitleStyle());
-        // flush();
     }
-
-    /*protected void flush() {
-        try {
-            writer.flush();
-        } catch (IOException e) {
-            throw new SystemErrorException();
-        }
-    }*/
 
     protected List<String> transformTitles(List<ExportTitle> titles) {
         List<String> list = new ArrayList<>(titles.size());

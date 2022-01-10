@@ -18,6 +18,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * 对象操作类型
+ */
 public class ObjectUtils {
     /**
      * 忽略的方法

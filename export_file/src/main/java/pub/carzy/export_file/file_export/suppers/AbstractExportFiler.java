@@ -70,10 +70,10 @@ public abstract class AbstractExportFiler implements ExportFiler {
     /**
      * 获取导出执行器
      *
-     * @param data
-     * @param point
-     * @param actuatorParam
-     * @return
+     * @param data 数据
+     * @param point 方法点
+     * @param actuatorParam 执行封装对象
+     * @return 执行器
      */
     protected abstract ExportActuator createExportActuator(Object data, ProceedingJoinPoint point, ExportActuatorParam actuatorParam);
 

@@ -12,8 +12,8 @@ import java.util.List;
  */
 public interface ExportActuator extends Closeable {
     /**
-     * 获取文件
-     * @return
+     * 获取标题
+     * @return 标题
      */
     List<ExportTitle> getTitles();
 
@@ -24,7 +24,7 @@ public interface ExportActuator extends Closeable {
 
     /**
      * 写标题
-     * @param titles
+     * @param titles 标题
      */
     void writeTitles(List<ExportTitle> titles);
 
@@ -34,7 +34,8 @@ public interface ExportActuator extends Closeable {
     void writeContent();
 
     /**
-     * 对象
+     * 获取对象
+     * @return 对象
      */
     Object getObject();
 }

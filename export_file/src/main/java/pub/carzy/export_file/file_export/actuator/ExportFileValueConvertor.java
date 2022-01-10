@@ -13,23 +13,23 @@ public interface ExportFileValueConvertor extends Ordered {
     /**
      * 匹配
      *
-     * @param convertor
-     * @return
+     * @param convertor 转换器值
+     * @return 是否能够转换
      */
     boolean match(ExportValueFormat convertor);
 
     /**
      * 转换值
      *
-     * @param convertor
-     * @param value
-     * @return
+     * @param convertor 转换器值
+     * @param value 内容
+     * @return 转换值
      */
     Object formatValue(ExportValueFormat convertor, Object value);
 
     /**
      * 默认实现
-     * @return
+     * @return 排序数字
      */
     @Override
     default int getOrder() {

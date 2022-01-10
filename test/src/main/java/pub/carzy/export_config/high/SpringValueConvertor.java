@@ -7,7 +7,7 @@ import pub.carzy.export_file.file_export.entity.ExportValueFormat;
 /**
  * @author admin
  */
-// @Component
+@Component
 public class SpringValueConvertor implements ExportFileValueConvertor {
     @Override
     public boolean match(ExportValueFormat convertor) {

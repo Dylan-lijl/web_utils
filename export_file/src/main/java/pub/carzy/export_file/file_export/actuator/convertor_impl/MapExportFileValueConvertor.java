@@ -16,9 +16,9 @@ public class MapExportFileValueConvertor implements ExportFileValueConvertor {
     /**
      * 从映射里面获取
      *
-     * @param convertor
-     * @param value
-     * @return
+     * @param convertor 转换器
+     * @param value 来源值
+     * @return 转换值(映射的值,可能为null)
      */
     @Override
     public Object formatValue(ExportValueFormat convertor, Object value) {

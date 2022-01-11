@@ -9,7 +9,7 @@
 - 配置Bean->ExportFiler编写自己业务规则(根据拦截的方法返回类型来配置)
 - 添加异常拦截器拦截异常返回自定义数据: 可以直接拦截异常公共父类ExportBaseException,也可以分开拦截:ExportFileEmptyException,ExportNotSupportedException,SystemErrorException
 - 配置文件更改:
-
+```
     web:
       export:
         # 切点表达式,指定扫描哪些类,默认是扫描RestController和Controller
@@ -18,7 +18,7 @@
         prefix: tmp_
         # 创建文件所在文件夹的绝对路径,文件夹必须存在
         common-file-path: D:\\tmp\\files
-
+```
 - 在需要导出的方法添加注解,ExportMethod
 - 前端请求格式要求, 以json请求为例:
 

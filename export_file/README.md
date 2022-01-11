@@ -4,6 +4,14 @@
 
 ### 1.使用方法
 
+- 导出依赖
+```
+<dependency>
+     <groupId>pub.carzy</groupId>
+     <artifactId>export_file</artifactId>
+     <version>1.0</version>
+</dependency>
+```
 - 在配置类上添加WebExportFileEnable注解
 - 配置Bean->ExportAopCallback,继承DefaultExportAopCallback类按需重写方法
 - 配置Bean->ExportFiler编写自己业务规则(根据拦截的方法返回类型来配置)

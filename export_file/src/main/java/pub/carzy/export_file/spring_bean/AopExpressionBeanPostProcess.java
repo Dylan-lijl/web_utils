@@ -19,6 +19,7 @@ import java.util.Objects;
  * 修改aop的切点表达式
  *
  * @author admin
+ * @version 1.0
  */
 public class AopExpressionBeanPostProcess implements BeanFactoryPostProcessor, ApplicationContextAware {
 

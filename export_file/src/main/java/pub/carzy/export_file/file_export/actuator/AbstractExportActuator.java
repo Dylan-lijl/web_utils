@@ -20,6 +20,7 @@ import java.util.*;
  * 抽象处理器
  *
  * @author admin
+ * @version 1.0
  */
 public abstract class AbstractExportActuator implements ExportActuator {
     protected ExportActuatorParam actuatorParam;
@@ -44,7 +45,6 @@ public abstract class AbstractExportActuator implements ExportActuator {
 
     /**
      * 默认实现直接返回file对象
-     *
      * @return file对象
      */
     @Override

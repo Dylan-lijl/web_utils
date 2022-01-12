@@ -3,6 +3,7 @@ package pub.carzy.export_file.file_export;
 /**
  * 静态量
  * @author admin
+ * @version 1.0
  */
 public class ExportFileStatic {
     /**

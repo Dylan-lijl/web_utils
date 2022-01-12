@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 
 /**
  * @author admin
+ * @version 1.0
  */
 public class ExportNotSupportedException extends ExportBaseException{
     public ExportNotSupportedException() {

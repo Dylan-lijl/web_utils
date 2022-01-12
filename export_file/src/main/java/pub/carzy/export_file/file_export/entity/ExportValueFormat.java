@@ -12,6 +12,7 @@ import java.util.Map;
  * 导出值转换器
  *
  * @author admin
+ * @version 1.0
  */
 @Data
 public class ExportValueFormat implements Serializable {

@@ -8,6 +8,7 @@ import java.util.Map;
 
 /**
  * @author admin
+ * @version 1.0
  */
 @ConfigurationProperties("web")
 @Component

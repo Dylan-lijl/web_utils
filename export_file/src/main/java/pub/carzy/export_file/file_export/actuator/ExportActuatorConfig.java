@@ -8,6 +8,7 @@ import java.util.List;
 /**
  * 执行器配置
  * @author admin
+ * @version 1.0
  */
 @Data
 public class ExportActuatorConfig {

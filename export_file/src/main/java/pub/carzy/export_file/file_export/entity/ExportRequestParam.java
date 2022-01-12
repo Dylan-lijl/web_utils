@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 前端封装类
  * @author admin
+ * @version 1.0
  */
 @Data
 public class ExportRequestParam implements Serializable {

@@ -7,6 +7,7 @@ import java.lang.annotation.*;
 
 /**
  * @author admin
+ * @version 1.0
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

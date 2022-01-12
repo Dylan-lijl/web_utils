@@ -10,6 +10,7 @@ import java.util.Map;
  * 文件操作
  *
  * @author admin
+ * @version 1.0
  */
 public interface FileWriter extends Closeable {
     /**
@@ -41,7 +42,7 @@ public interface FileWriter extends Closeable {
 
     /**
      * 刷新缓存区到文件中
-     * @throws IOException
+     * @throws IOException io异常
      */
     void flush() throws IOException;
 }

@@ -5,7 +5,9 @@ import pub.carzy.export_file.file_export.actuator.ExportActuatorParam;
 import pub.carzy.export_file.file_export.actuator.FileWriter;
 
 /**
+ * 创建writer工厂
  * @author admin
+ * @version 1.0
  */
 public interface FileWriteFactory extends Ordered {
     /**

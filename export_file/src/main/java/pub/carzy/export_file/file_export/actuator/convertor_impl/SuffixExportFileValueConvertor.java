@@ -7,6 +7,7 @@ import pub.carzy.export_file.file_export.entity.ExportValueFormat;
 /**
  * 字符串后缀拼接
  *
+ * @version 1.0
  * @author admin
  */
 public class SuffixExportFileValueConvertor implements ExportFileValueConvertor {

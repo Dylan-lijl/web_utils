@@ -30,6 +30,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 拦截aop
  *
  * @author admin
+ * @version 1.0
  */
 @Component
 @Aspect

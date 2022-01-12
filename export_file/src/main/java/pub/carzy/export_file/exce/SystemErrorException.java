@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 
 /**
  * @author admin
+ * @version 1.0
  */
 public class SystemErrorException extends ExportBaseException {
     public SystemErrorException() {

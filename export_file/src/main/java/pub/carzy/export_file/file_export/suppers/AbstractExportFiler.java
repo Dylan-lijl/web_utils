@@ -19,6 +19,7 @@ import java.util.*;
  * 抽象处理
  *
  * @author admin
+ * @version 1.0
  */
 public abstract class AbstractExportFiler implements ExportFiler {
 

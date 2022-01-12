@@ -9,6 +9,7 @@ import java.util.Collection;
  * 集合文件导出,抽象类
  *
  * @author admin
+ * @version 1.0
  */
 public abstract class CollectionExportFiler extends AbstractExportFiler {
 

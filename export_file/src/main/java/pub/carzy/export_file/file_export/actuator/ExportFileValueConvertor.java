@@ -8,6 +8,7 @@ import pub.carzy.export_file.file_export.entity.ExportValueFormat;
  * 定义转换器接口
  *
  * @author admin
+ * @version 1.0
  */
 public interface ExportFileValueConvertor extends Ordered {
     /**

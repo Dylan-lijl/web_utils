@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author admin
+ * @version 1.0
  */
 public class CsvFileWriter extends AbstractFileWriter {
 

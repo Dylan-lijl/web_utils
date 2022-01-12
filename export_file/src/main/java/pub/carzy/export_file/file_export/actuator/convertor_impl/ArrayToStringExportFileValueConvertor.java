@@ -8,6 +8,7 @@ import pub.carzy.export_file.file_export.entity.ExportValueFormat;
  * 数组转成字符串
  *
  * @author admin
+ * @version 1.0
  */
 public class ArrayToStringExportFileValueConvertor implements ExportFileValueConvertor {
     @Override

@@ -5,6 +5,7 @@ import lombok.Data;
 /**
  * 字段元数据以及回调
  * @author admin
+ * @version 1.0
  */
 @Data
 public class MetaInfoField {

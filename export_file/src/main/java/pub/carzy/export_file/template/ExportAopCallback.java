@@ -4,7 +4,9 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import pub.carzy.export_file.file_export.entity.ExportRequestParam;
 
 /**
+ * aop的规则配置
  * @author admin
+ * @version 1.0
  */
 public interface ExportAopCallback {
     /**

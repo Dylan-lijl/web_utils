@@ -10,18 +10,20 @@ import java.util.Map;
 
 /**
  * 映射对象
+ *
  * @author admin
+ * @version 1.0
  */
 @Data
 public class ExportTitle implements Serializable {
-    @ApiModelProperty(value = "字段名称",required = true)
+    @ApiModelProperty(value = "字段名称", required = true)
     @NotNull(message = "缺少字段名称")
     private String name;
-    @ApiModelProperty(value = "标题",required = true)
+    @ApiModelProperty(value = "标题", required = true)
     @NotNull(message = "缺少标题")
     private String title;
     @ApiModelProperty("排序")
-    private Integer sort=Integer.MAX_VALUE;
+    private Integer sort = Integer.MAX_VALUE;
     @ApiModelProperty("转换器,如果没有就直接注入值")
     @Valid
     private ExportValueFormat convertor;

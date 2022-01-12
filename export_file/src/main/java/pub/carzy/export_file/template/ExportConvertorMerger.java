@@ -7,7 +7,9 @@ import javax.annotation.Resource;
 import java.util.*;
 
 /**
+ * 合并,将spring的和SPI的进行整合
  * @author admin
+ * @version 1.0
  */
 public class ExportConvertorMerger implements InitializingBean {
     /**

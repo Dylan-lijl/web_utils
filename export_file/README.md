@@ -4,7 +4,7 @@
 
 ### 1.使用方法
 
-- 导出依赖
+- 导人依赖
 ```
 <dependency>
      <groupId>pub.carzy</groupId>

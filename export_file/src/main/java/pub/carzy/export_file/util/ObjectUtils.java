@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 /**
  * 对象工具类
  * @author admin
+ * @version 1.0
  */
 public class ObjectUtils {
     /**

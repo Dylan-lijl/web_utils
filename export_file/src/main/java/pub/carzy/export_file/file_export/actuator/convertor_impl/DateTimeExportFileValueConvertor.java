@@ -11,6 +11,7 @@ import java.util.Date;
  * 时间类型转换: yyyy-MM-dd HH:mm:ss
  *
  * @author admin
+ * @version 1.0
  */
 public class DateTimeExportFileValueConvertor implements ExportFileValueConvertor {
     /**

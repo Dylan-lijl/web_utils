@@ -6,6 +6,7 @@ import pub.carzy.export_file.file_export.entity.ExportValueFormat;
 
 /**
  * @author admin
+ * @version 1.0
  */
 public class MapExportFileValueConvertor implements ExportFileValueConvertor {
     @Override

@@ -18,6 +18,7 @@ import pub.carzy.export_file.template.FileWriteFactory;
 
 /**
  * @author admin
+ * @version 1.0
  */
 @Import(AopExpressionBeanPostProcess.class)
 public class ExportBeans {

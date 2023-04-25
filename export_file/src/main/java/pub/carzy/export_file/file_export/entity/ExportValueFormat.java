@@ -25,4 +25,6 @@ public class ExportValueFormat implements Serializable {
     private String value;
     @ApiModelProperty("多值")
     private List<String> values;
+    @ApiModelProperty("扩展字段")
+    private Map<String,String> extMap;
 }

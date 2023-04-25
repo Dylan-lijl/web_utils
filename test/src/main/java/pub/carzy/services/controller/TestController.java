@@ -37,4 +37,11 @@ public class TestController {
         List<TestResponse> list = testService.pageList(request);
         return CommonResult.success(list);
     }
+
+    @RequestMapping("/pageTestOther")
+    @ExportMethod(filename = "测试列表")
+    public CommonResult<List<TestResponse>> pageTestOther(@RequestBody @Valid TestRequest request) {
+        List<TestResponse> list = testService.pageTestOther(request);
+        return CommonResult.success(list);
+    }
 }

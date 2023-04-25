@@ -13,4 +13,6 @@ public interface TestService {
     IPage<TestResponse> pageTest(TestRequest request);
 
     List<TestResponse> pageList(TestRequest request);
+
+    List<TestResponse> pageTestOther(TestRequest request);
 }

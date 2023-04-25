@@ -6,7 +6,7 @@
 
     <groupId>pub.carzy</groupId>
     <artifactId>web_utils</artifactId>
-    <version>1.0</version>
+    <version>2.0</version>
     <packaging>pom</packaging>
     <name>web_utils</name>
     <description>基于SpringBoot一些Web插件</description>
@@ -62,7 +62,7 @@
         <hutool.version>4.5.7</hutool.version>
         <mybatis-plus.version>3.3.2</mybatis-plus.version>
         <mysql-connector.version>8.0.16</mysql-connector.version>
-        <project-all.version>1.0</project-all.version>
+        <project-all.version>2.0</project-all.version>
         <fastjson.version>1.2.75</fastjson.version>
         <additionalparam>-Xdoclint:none</additionalparam>
     </properties>

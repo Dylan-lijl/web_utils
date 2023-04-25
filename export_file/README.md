@@ -59,7 +59,7 @@
 
 #### 添加转换器
 
-实现 `ExportFileValueConvertor` 接口并重写对应的方法：
+实现 `ExportFileValueConvertor` 接口并重写对应的方法,避免冲突推荐类型使用100之后的数字：
 
    - 第一种使用 SPI 注入，在项目资源文件夹下新建 `META-INF/services` 文件夹，新建 `pub.carzy.export_file.file_export.actuator.ExportFileValueConvertor` 文件将扩展的类的全路径复制进去。
    - 第二种使用 Spring 注入...
